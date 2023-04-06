@@ -70,14 +70,78 @@ public partial class MainWindow : Window
 
     private void CheckForWinner(char[] chars)
     {
-        char[,] tmp = new char[3, 3]
+
+        bool[,] xPos = new bool[3, 3]
         {
-            {chars[0],chars[1],chars[2] },
-            {chars[3],chars[4],chars[5] },
-            {chars[6],chars[7],chars[8] },
+            {chars[0] == 'X',chars[1] == 'X',chars[2] == 'X'},
+            {chars[3] == 'X',chars[4] == 'X',chars[5] == 'X'},
+            {chars[6] == 'X',chars[7] == 'X',chars[8] == 'X'}
         };
 
-        // win condition needs to be done
+        if (checkDoubleArr(xPos, 0, false) ||
+            checkDoubleArr(xPos, 1, false) ||
+            checkDoubleArr(xPos, 2, false) ||
+            checkDoubleArr(xPos, 0, true) ||
+            checkDoubleArr(xPos, 1, true) ||
+            checkDoubleArr(xPos, 2, true) ||
+            checkDiaqonalsArr(xPos))
+            MessageBox.Show("X wins !");
+
+        changeArr(ref xPos);
+
+        if (checkDoubleArr(xPos, 0, false) ||
+            checkDoubleArr(xPos, 1, false) ||
+            checkDoubleArr(xPos, 2, false) ||
+            checkDoubleArr(xPos, 0, true) ||
+            checkDoubleArr(xPos, 1, true) ||
+            checkDoubleArr(xPos, 2, true) ||
+            checkDiaqonalsArr(xPos))
+            MessageBox.Show("O wins !");
+
+    }
+
+    private bool checkDoubleArr(bool[,] bools, int dimension, bool other)
+    {
+        int length = bools.GetLength(dimension);
+        bool isTrue = true;
+
+        for (int i = 0; i < length; i++)
+        {
+            if (other)
+            {
+                if (!bools[dimension, i])
+                    isTrue = false;
+            }
+            else
+            {
+                if (!bools[i, dimension])
+                    isTrue = false;
+            }
+        }
+
+        return isTrue;
+    }
+
+    private bool checkDiaqonalsArr(bool[,] bools)
+    {
+        bool isTrue = false;
+
+        if (bools[0, 0] && bools[1, 1] && bools[2, 2] ||
+            bools[0, 2] && bools[1, 1] && bools[2, 0])
+            isTrue = true;
+
+        return isTrue;
+    }
+
+    private void changeArr(ref bool[,] arr)
+    {
+        for (int i = 0; i < arr.Rank; i++)
+        {
+            for (int j = 0; j < arr.Length; j++)
+            {
+                arr[i, j] = !arr[i, j];
+            }
+        }
     }
 
     private void btn_Click(object sender, RoutedEventArgs e)
