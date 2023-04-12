@@ -54,7 +54,7 @@ public partial class MainWindow : Window
 
                 _myTurn = !_myTurn;
                 Dispatcher.Invoke(() => mainGrid.IsEnabled = _myTurn);
-                CheckForWinner(chars);
+                // CheckForWinner(chars);
 
             }
         }
